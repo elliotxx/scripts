@@ -57,13 +57,13 @@ echo "${YELLOW}initializing git...${RESET}"
 git config --global user.email 951376975@qq.com
 git config --global user.name elliotxx
 echo '[core]\n\teditor=vim' >> ~/.gitconfig
-if [ ! -d "$user_home_folder/.ssh"]; then
+if [ ! -d "$user_home_folder/.ssh" ]; then
   ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa -C 951376975@qq.com
 fi
 
 # 安装 ohmyzsh
 echo "${YELLOW}install ohmyzsh...${RESET}"
-echo y | sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo y | sh -c ./ohmyzsh-install.sh
 sudo usermod -s /usr/bin/zsh $created_user         # 更改用户 的终端为 zsh
 
 # 安装 Golang
