@@ -1,6 +1,10 @@
 #!/bin/sh
 # 如果任何语句的执行结果不是 true 则应该退出，防止问题扩大
 set -e
+
+created_user=yym
+user_home_folder=/home/$created_user
+
 setup_color() {
 	# Only use colors if connected to a terminal
     RED=$(printf '\033[31m')
@@ -28,18 +32,24 @@ echo "${YELLOW}install some software by apt-get...${RESET}"
 apt-get install -y nginx htop git zsh
 
 # 初始化账号
-echo "${YELLOW}creating user [yym]...${RESET}"
-useradd -s /bin/bash yym            # 创建用户 yym
-passwd yym                          # 设置用户 yym 的密码
+id -u $user >/dev/null 2>&1
+if [ $? -ne 0 ]
+then
+  echo "${YELLOW}creating user [$created_user]...${RESET}"
+  useradd -s /bin/bash $created_user	# 创建用户
+  passwd $created_user			# 设置用户的密码
+fi
 
-# 添加用户 yym 使用 sudo 的权限
-echo 'yym     ALL=(ALL:ALL) ALL' >> /etc/sudoers
-mkdir /home/yym          # 创建 yym 用户目录
-chown yym:yym -R /home/yym
+# 添加用户 使用 sudo 的权限
+echo "$created_user     ALL=(ALL:ALL) ALL" >> /etc/sudoers
+if [ ! -d "$user_home_folder"]; then
+  mkdir $user_home_folder	# 创建 用户目录
+  chown $created_user:$created_user -R $user_home_folder
+fi
 
 # 切换到普通用户
-echo "${YELLOW}change to user [yym]${RESET}"
-su - yym <<EOF
+echo "${YELLOW}change to user [$created_user]${RESET}"
+su - $created_user <<EOF
 cd ~
 
 # git 初始化
@@ -47,12 +57,14 @@ echo "${YELLOW}initializing git...${RESET}"
 git config --global user.email 951376975@qq.com
 git config --global user.name elliotxx
 echo '[core]\n\teditor=vim' >> ~/.gitconfig
-ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa -C 951376975@qq.com
+if [ ! -d "$user_home_folder/.ssh"]; then
+  ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa -C 951376975@qq.com
+fi
 
 # 安装 ohmyzsh
 echo "${YELLOW}install ohmyzsh...${RESET}"
 echo y | sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-usermod -s /usr/bin/zsh yym         # 更改用户 yym 的终端为 zsh
+sudo usermod -s /usr/bin/zsh $created_user         # 更改用户 的终端为 zsh
 
 # 安装 Golang
 echo "${YELLOW}install golang...${RESET}"
@@ -93,4 +105,5 @@ sudo apt-get install -y docker-ce
 
 echo "${YELLOW}OK${RESET}"
 EOF
+su yym
 zsh
