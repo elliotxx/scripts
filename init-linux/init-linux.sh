@@ -4,6 +4,7 @@
 
 created_user=yym
 user_home_folder=/home/$created_user
+script_folder=$(pwd)
 
 setup_color() {
 	# Only use colors if connected to a terminal
@@ -63,6 +64,9 @@ fi
 
 # 安装 ohmyzsh
 echo "${YELLOW}install ohmyzsh...${RESET}"
+sudo cp $script_folder/ohmyzsh-install.sh ./ohmyzsh-install.sh
+sudo chown yym:yym ./ohmyzsh-install.sh
+sudo chmod +x ./ohmyzsh-install.sh
 echo y | sh -c ./ohmyzsh-install.sh
 sudo usermod -s /usr/bin/zsh $created_user         # 更改用户 的终端为 zsh
 
