@@ -1,6 +1,6 @@
 #!/bin/bash
 # 如果任何语句的执行结果不是 true 则应该退出，防止问题扩大
-set -e
+# set -e
 
 created_user=yym
 user_home_folder=/home/$created_user
@@ -34,12 +34,15 @@ apt-get install -y nginx htop git zsh
 
 # 初始化账号
 echo "initializing user..."
-id $created_user &> /dev/null
-if [ $? -ne 0 ]; then
-  echo "${YELLOW}creating user [$created_user]...${RESET}"
-  useradd -s /bin/bash $created_user	# 创建用户
-  passwd $created_user			# 设置用户的密码
-fi
+create_user() {
+  id $created_user > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "${YELLOW}creating user [$created_user]...${RESET}"
+    useradd -s /bin/bash $created_user	# 创建用户
+    passwd $created_user			# 设置用户的密码
+  fi
+}
+create_user
 
 # 添加用户 使用 sudo 的权限
 echo "$created_user     ALL=(ALL:ALL) ALL" >> /etc/sudoers

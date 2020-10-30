@@ -1,6 +1,6 @@
 #!/bin/bash
 # 如果任何语句的执行结果不是 true 则应该退出，防止问题扩大
-set -e
+# set -e
 
 created_user=yym
 user_home_folder=/home/$created_user
@@ -51,13 +51,11 @@ export GOOS=linux
 export GOBIN=$GOROOT/bin/
 export GOTOOLS=$GOROOT/pkg/tool/
 export PATH=$PATH:$GOBIN:$GOTOOLS' >> ~/.zshrc
-source ~/.zshrc
-go version
 
 # 安装 Docker
 echo "${YELLOW}install docker...${RESET}"
 # 1. 卸载旧版本
-sudo apt-get remove docker docker-engine docker.io
+sudo apt-get remove docker docker-engine docker.io > /dev/null 2>&1
 # 2. 安装最新版本的 Docker
 sudo apt-get update
 sudo apt-get install -y \
@@ -74,5 +72,14 @@ sudo add-apt-repository \
 # 4. 安装最新版的 Docker 软件
 sudo apt-get update
 sudo apt-get install -y docker-ce
+# 5. 将当前用户添加到 docker 用户组，否则没有权限
+sudo groupadd docker                    # 添加docker用户组
+sudo gpasswd -a $created_user docker    # 将当前用户添加至docker用户组
+# 6. docker 镜像加速
+echo '{
+  "registry-mirrors": ["http://hub-mirror.c.163.com","https://registry.docker-cn.com"]
+}' | sudo tee -a /etc/docker/daemon.json
 
 echo "${YELLOW}OK${RESET}"
+/usr/bin/zsh
+newgrp docker                           # 更新docker用户组
