@@ -52,6 +52,14 @@ export GOBIN=$GOROOT/bin/
 export GOTOOLS=$GOROOT/pkg/tool/
 export PATH=$PATH:$GOBIN:$GOTOOLS' >> ~/.zshrc
 
+# pip 豆瓣加速
+echo "${YELLOW}配置 pip 豆瓣加速...${RESET}"
+mkdir ~/.pip
+touch ~/.pip/pip.conf
+echo '[global]
+index-url = https://pypi.doubanio.com/simple
+trusted-host = pypi.doubanio.com' | sudo tee -a ~/.pip/pip.conf
+
 # 安装 Docker
 echo "${YELLOW}install docker...${RESET}"
 # 1. 卸载旧版本
