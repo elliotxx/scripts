@@ -20,5 +20,7 @@ su yym
 cd ~
 git clone https://github.com/elliotxx/scripts.git
 cd scripts/init-linux
+# 国内版运行:
+# sh user-init-linux-zh.sh
 sh user-init-linux.sh
 ```

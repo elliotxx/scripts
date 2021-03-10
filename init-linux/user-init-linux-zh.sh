@@ -32,10 +32,10 @@ fi
 
 # 安装 ohmyzsh
 echo "${YELLOW}install ohmyzsh...${RESET}"
-sudo cp $script_folder/ohmyzsh-install.sh ./ohmyzsh-install.sh
-sudo chown yym:yym ./ohmyzsh-install.sh
-sudo chmod +x ./ohmyzsh-install.sh
-echo y | sh -c ./ohmyzsh-install.sh
+sudo cp $script_folder/ohmyzsh-install-zh.sh ./ohmyzsh-install-zh.sh
+sudo chown yym:yym ./ohmyzsh-install-zh.sh
+sudo chmod +x ./ohmyzsh-install-zh.sh
+echo y | sh -c ./ohmyzsh-install-zh.sh
 sudo usermod -s /usr/bin/zsh $created_user         # 更改用户 的终端为 zsh
 
 # 安装 Golang
@@ -72,17 +72,11 @@ sudo apt-get install -y \
     curl \
     software-properties-common
 # 3. 设置apt仓库地址
-# 阿里云的镜像中心有时候会跪，暂时用官方的
-# curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
-# sudo add-apt-repository \
-#      "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu \
-#      $(lsb_release -cs) \
-#      stable"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
-    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) \
-    stable"
+     "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"
 # 4. 安装最新版的 Docker 软件
 sudo apt-get update
 sudo apt-get install -y docker-ce
