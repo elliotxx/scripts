@@ -30,7 +30,7 @@ apt-get update
 
 # 安装必要软件
 echo "${YELLOW}install some software by apt-get...${RESET}"
-apt-get install -y nginx htop git zsh
+apt-get install -y nginx htop git zsh mysql-client
 
 # 初始化账号
 echo "initializing user..."
