@@ -11,7 +11,7 @@ fruits=("apple" "banana" "orange" "grape" "kiwi" "mango" "pear" "cherry" "pineap
         "kiwano" "starfruit" "elderberry" "boysenberry" "rhubarb" "tamarillo" "quince" "mulberry" "kiwifruit")
 
 for fruit in "${fruits[@]}"; do
-  for i in {1..100}; do 
+  for i in {1..30}; do 
     cat <<EOF > "$output_dir/mock-$fruit-$i.yaml"
 apiVersion: v1
 kind: Namespace
