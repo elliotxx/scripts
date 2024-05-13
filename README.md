@@ -10,4 +10,4 @@ scoop install bat curl dark docker firacode fzf git-aliases grep innounp jq lazy
 ```
 
 后置操作：
-1. 手动安装 lunarvim: `~/scoop/app/lunarvim/current/install.ps1`
+1. 手动执行 lunarvim 安装脚本: `~/scoop/app/lunarvim/current/install.ps1`
