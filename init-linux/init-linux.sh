@@ -30,7 +30,7 @@ apt-get update
 
 # 安装必要软件
 echo "${YELLOW}install some software by apt-get...${RESET}"
-apt-get install -y nginx htop git zsh mysql-client
+apt-get install -y nginx htop git zsh mysql-client neovim
 
 # 初始化账号
 echo "initializing user..."
